@@ -1,15 +1,12 @@
 <template>
   <v-container>
-    <v-row align="center" justify="center" class="ma-4">
-      <UsersFilters @update-filters="onFiltersUpdate" />
+    <div class="flex gap-4 align-start">
+      <UsersFilters class="w-[450px] shrink-0" @update-filters="onFiltersUpdate" />
       <div class="flex gap-4 flex-wrap">
-        <UserCard v-for="user in filteredUsersList" :key="user.title" :user="user"></UserCard>
+        <TransitionGroup name="list">
+          <UserCard v-for="user in filteredUsersList" :key="user.title" :user="user"></UserCard>
+        </TransitionGroup>
       </div>
-      <v-col cols="12">
-        <v-img class="my-3" contain height="200" />
-      </v-col>
-
-      <v-col cols="12" md="4"> </v-col>
 
       <!-- <v-col cols="12" md="4">
         <v-card max-width="450" class="mx-auto">
@@ -33,7 +30,7 @@
           </v-list>
         </v-card>
       </v-col> -->
-    </v-row>
+    </div>
   </v-container>
 </template>
 
@@ -50,7 +47,7 @@ const { usersList } = storeToRefs(usersStore);
 const filteringOptions = ref<{ country: string; minScore: number; maxScore: number }>({
   country: '',
   minScore: -25,
-  maxScore: 25,
+  maxScore: 50,
 });
 
 const filteredUsersList = computed(() => {
@@ -58,46 +55,24 @@ const filteredUsersList = computed(() => {
   if (filteringOptions.value.country) {
     filteredByCountry = filteredByCountry.filter((user) => user.country === filteringOptions.value.country);
   }
-  return filteredByCountry;
+  return filteredByCountry.filter(
+    (user) => user.score >= filteringOptions.value.minScore && user.score <= filteringOptions.value.maxScore,
+  );
 });
-
-// const users = ref([
-//   { header: 'List' },
-//   {
-//     avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-//     title: 'Brunch this weekend?',
-//     subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-//   },
-//   { divider: true, inset: true },
-//   {
-//     avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-//     title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-//     subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
-//   },
-//   { divider: true, inset: true },
-//   {
-//     avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-//     title: 'Oui oui',
-//     subtitle:
-//       '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
-//   },
-//   { divider: true, inset: true },
-//   {
-//     avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-//     title: 'Birthday gift',
-//     subtitle:
-//       '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
-//   },
-//   { divider: true, inset: true },
-//   {
-//     avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-//     title: 'Recipe to try',
-//     subtitle:
-//       '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-//   },
-// ]);
 
 const onFiltersUpdate = (options: { country: string; minScore: number; maxScore: number }) => {
   filteringOptions.value = options;
 };
 </script>
+
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
