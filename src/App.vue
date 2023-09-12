@@ -6,26 +6,30 @@
     </v-main>
 
     <v-footer app v-bind="localAttrs">
-      <Footer />
+      <MainFooter />
     </v-footer>
   </v-app>
 </template>
 
 <script lang="ts">
-import ContentBlock from "./components/ContentBlock.vue";
-import Footer from "./components/Footer.vue";
+import ContentBlock from './components/ContentBlock.vue';
+import MainFooter from './components/MainFooter.vue';
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     ContentBlock,
-    Footer,
+    MainFooter,
   },
+
+  data: () => ({
+    //
+  }),
 
   computed: {
     localAttrs() {
-      const attrs = {};
+      const attrs = { absolute: true, fixed: true };
 
       attrs.absolute = true;
       attrs.fixed = false;
@@ -33,9 +37,5 @@ export default {
       return attrs;
     },
   },
-
-  data: () => ({
-    //
-  }),
 };
 </script>

@@ -1,0 +1,31 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module"
+  },
+  "extends": ["plugin:vue/vue3-recommended", "prettier"],
+  "plugins": ["prettier", "@typescript-eslint"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "vue/html-indent": ["error", 2],
+    "vue/singleline-html-element-content-newline": 0,
+    "vue/component-name-in-template-casing": ["error", "PascalCase"],
+    "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_", "args": "none" }],
+    "vue/valid-v-slot": [
+      "error",
+      {
+        "allowModifiers": true
+      }
+    ],
+    "vue/no-v-text-v-html-on-component": 1
+  },
+  "globals": {
+    "_": true
+  }
+}
