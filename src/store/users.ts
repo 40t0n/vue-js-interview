@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { IUser } from '../lib/types';
 // import { getUsers as fetchUsers } from '../api/users';
+
+interface FilteringOptions {
+  country: string;
+  minScore: number;
+  maxScore: number;
+}
 
 export const useUsersStore = defineStore('users', () => {
   const usersList = ref<IUser[]>([
@@ -55,6 +61,27 @@ export const useUsersStore = defineStore('users', () => {
     },
   ]);
 
+  const filteringOptions = ref<FilteringOptions>({ country: '', minScore: -25, maxScore: 50 });
+
+  function resetFilters() {
+    filteringOptions.value = { country: '', minScore: -25, maxScore: 50 };
+  }
+
+  function updateFilters(newFilters: Partial<FilteringOptions>) {
+    filteringOptions.value = { ...filteringOptions.value, ...newFilters };
+    return filteringOptions;
+  }
+
+  const filteredUsersList = computed(() => {
+    let filteredByCountry = usersList.value;
+    if (filteringOptions.value.country) {
+      filteredByCountry = filteredByCountry.filter((user) => user.country === filteringOptions.value.country);
+    }
+    return filteredByCountry.filter(
+      (user) => user.score >= filteringOptions.value.minScore && user.score <= filteringOptions.value.maxScore,
+    );
+  });
+
   // Получение пользователей
   // fetchUsers().then((list) => {
   //   if (Array.isArray(list)) {
@@ -62,5 +89,5 @@ export const useUsersStore = defineStore('users', () => {
   //   }
   // });
 
-  return { usersList };
+  return { usersList, filteringOptions, resetFilters, updateFilters, filteredUsersList };
 });

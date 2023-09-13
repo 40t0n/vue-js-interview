@@ -24,18 +24,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useUsersStore } from '../store/users';
 
-const countryFilter = ref<string>('');
+const usersStore = useUsersStore();
+
+const countryFilter = ref<string>(usersStore.filteringOptions.country);
 const countries = ref<string[]>(['Russia', 'USA']);
 
-const rangeFiler = ref<number[]>([-25, 50]);
-
-const emits = defineEmits<{
-  (e: 'updateFilters', { country, minScore, maxScore }: { country: string; minScore: number; maxScore: number }): void;
-}>();
+const rangeFiler = ref<number[]>([usersStore.filteringOptions.minScore, usersStore.filteringOptions.maxScore]);
 
 const filterUpdated = () => {
-  emits('updateFilters', {
+  usersStore.updateFilters({
     country: countryFilter.value,
     minScore: rangeFiler.value[0],
     maxScore: rangeFiler.value[1],
@@ -43,9 +42,7 @@ const filterUpdated = () => {
 };
 
 const resetFilters = () => {
-  countryFilter.value = '';
-  rangeFiler.value = [-25, 50];
-  filterUpdated();
+  usersStore.resetFilters();
 };
 </script>
 

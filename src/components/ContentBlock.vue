@@ -4,81 +4,25 @@
       <div class="flex justify-center col-span-2">
         <v-img :src="logoSrc" class="my-3" contain height="200" width="200" />
       </div>
-      <UsersFilters class="shrink-0 self-start" @update-filters="onFiltersUpdate" />
+      <UsersFilters class="shrink-0 self-start" />
       <UsersList :users="filteredUsersList" class="self-start" />
-    </div>
-    <div class="flex gap-4 justify-center align-start">
-      <div></div>
-
-      <!-- <v-col cols="12" md="4">
-        <v-card max-width="450" class="mx-auto">
-          <v-list three-line>
-            <template v-for="(item, index) in users">
-              <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
-
-              <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
-
-              <v-list-item v-else :key="item.title">
-                <v-list-item-avatar>
-                  <v-img :src="item.avatar"></v-img>
-                </v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title v-html="item.title"></v-list-item-title>
-                  <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list>
-        </v-card>
-      </v-col> -->
     </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import UsersFilters from './UsersFilters.vue';
 import { useUsersStore } from '../store/users';
 import { storeToRefs } from 'pinia';
 import UsersList from './UsersList.vue';
 
 const usersStore = useUsersStore();
-const { usersList } = storeToRefs(usersStore);
-
-const filteringOptions = ref<{ country: string; minScore: number; maxScore: number }>({
-  country: '',
-  minScore: -25,
-  maxScore: 50,
-});
-
-const filteredUsersList = computed(() => {
-  let filteredByCountry = usersList.value;
-  if (filteringOptions.value.country) {
-    filteredByCountry = filteredByCountry.filter((user) => user.country === filteringOptions.value.country);
-  }
-  return filteredByCountry.filter(
-    (user) => user.score >= filteringOptions.value.minScore && user.score <= filteringOptions.value.maxScore,
-  );
-});
-
-const onFiltersUpdate = (options: { country: string; minScore: number; maxScore: number }) => {
-  filteringOptions.value = options;
-};
+const { filteredUsersList } = storeToRefs(usersStore);
 
 const logoSrc = computed(() => {
   return new URL('../assets/logo.png', import.meta.url).href;
 });
 </script>
 
-<style scoped>
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-</style>
+<style scoped></style>
