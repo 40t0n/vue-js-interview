@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg-gray-100">
     <v-main>
       <ContentBlock />
     </v-main>
@@ -10,31 +10,13 @@
   </v-app>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { computed } from 'vue';
 import ContentBlock from './components/ContentBlock.vue';
 import MainFooter from './components/MainFooter.vue';
 
-export default {
-  name: 'App',
-
-  components: {
-    ContentBlock,
-    MainFooter,
-  },
-
-  data: () => ({
-    //
-  }),
-
-  computed: {
-    localAttrs() {
-      const attrs = { absolute: true, fixed: true };
-
-      attrs.absolute = true;
-      attrs.fixed = false;
-
-      return attrs;
-    },
-  },
-};
+const localAttrs = computed(() => {
+  const attrs = { absolute: true, fixed: true };
+  return attrs;
+});
 </script>

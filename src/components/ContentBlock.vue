@@ -1,12 +1,11 @@
 <template>
   <v-container>
-    <div class="flex gap-4 align-start">
-      <UsersFilters class="w-[450px] shrink-0" @update-filters="onFiltersUpdate" />
-      <div class="flex gap-4 flex-wrap">
-        <TransitionGroup name="list">
-          <UserCard v-for="user in filteredUsersList" :key="user.title" :user="user"></UserCard>
-        </TransitionGroup>
+    <div class="flex gap-4 justify-center align-start">
+      <div>
+        <v-img :src="logoSrc" class="my-3" contain height="200" width="200" />
       </div>
+      <UsersFilters class="w-[450px] shrink-0" @update-filters="onFiltersUpdate" />
+      <UsersList :users="filteredUsersList" />
 
       <!-- <v-col cols="12" md="4">
         <v-card max-width="450" class="mx-auto">
@@ -39,7 +38,7 @@ import { ref, computed } from 'vue';
 import UsersFilters from './UsersFilters.vue';
 import { useUsersStore } from '../store/users';
 import { storeToRefs } from 'pinia';
-import UserCard from './UserCard.vue';
+import UsersList from './UsersList.vue';
 
 const usersStore = useUsersStore();
 const { usersList } = storeToRefs(usersStore);
@@ -63,6 +62,10 @@ const filteredUsersList = computed(() => {
 const onFiltersUpdate = (options: { country: string; minScore: number; maxScore: number }) => {
   filteringOptions.value = options;
 };
+
+const logoSrc = computed(() => {
+  return new URL('../assets/logo.png', import.meta.url).href;
+});
 </script>
 
 <style scoped>

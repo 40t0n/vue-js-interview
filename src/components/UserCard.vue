@@ -1,23 +1,25 @@
 <template>
-  <v-card width="250px" class="relative">
-    <v-img
-      :src="props.user.avatar"
-      height="200px"
-      cover
-      class="cursor-pointer"
-      @click="tooltipShown = !tooltipShown"
-    ></v-img>
+  <v-card :key="props.user.title">
+    <v-container>
+      <div class="flex gap-4">
+        <v-avatar>
+          <v-img :src="props.user.avatar" @click="tooltipShown = !tooltipShown"></v-img>
+        </v-avatar>
+        <div>
+          <v-list-item-title v-html="props.user.title"></v-list-item-title>
+          <v-list-item-subtitle v-html="props.user.subtitle"></v-list-item-subtitle>
+        </div>
 
-    <v-card-title v-html="props.user.title"></v-card-title>
-    <v-card-text v-html="props.user.subtitle"></v-card-text>
-    <v-dialog v-model="tooltipShown" width="200px">
-      <v-card>
-        <v-card-title>My address:</v-card-title>
-        <v-card-text>
-          {{ props.user.address }}
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+        <v-dialog v-model="tooltipShown" width="200px">
+          <v-card>
+            <v-card-title>My address:</v-card-title>
+            <v-card-text>
+              {{ props.user.address }}
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
+    </v-container>
   </v-card>
 </template>
 
