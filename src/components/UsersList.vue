@@ -2,8 +2,8 @@
   <v-card>
     <v-container>
       <TransitionGroup v-if="users.length > 0" name="list">
-        <v-list class="flex gap-4 flex-wrap w-[450px] shrink-0">
-          <UserCard v-for="user in props.users" :key="user.title" :user="user"></UserCard>
+        <v-list class="flex gap-4 flex-wrap w-[450px] shrink-0 [&>*]:border-b [&>*:last-child]:border-0">
+          <UserCard v-for="user in props.users" :key="user.title" :user="user" class=""></UserCard>
         </v-list>
       </TransitionGroup>
       <p v-else class="w-[450px]">Пользователи не найдены</p>

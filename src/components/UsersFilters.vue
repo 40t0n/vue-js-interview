@@ -4,7 +4,7 @@
       <v-select
         v-model="countryFilter"
         :items="countries"
-        class="w-96"
+        class="w-full"
         label="Filter by country"
         @update:model-value="filterUpdated"
       ></v-select>

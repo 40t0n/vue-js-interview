@@ -1,11 +1,14 @@
 <template>
   <v-container>
-    <div class="flex gap-4 justify-center align-start">
-      <div>
+    <div class="grid grid-cols-2 justify-center items-center gap-3 w-[1000px] m-auto">
+      <div class="flex justify-center col-span-2">
         <v-img :src="logoSrc" class="my-3" contain height="200" width="200" />
       </div>
-      <UsersFilters class="w-[450px] shrink-0" @update-filters="onFiltersUpdate" />
-      <UsersList :users="filteredUsersList" />
+      <UsersFilters class="shrink-0 self-start" @update-filters="onFiltersUpdate" />
+      <UsersList :users="filteredUsersList" class="self-start" />
+    </div>
+    <div class="flex gap-4 justify-center align-start">
+      <div></div>
 
       <!-- <v-col cols="12" md="4">
         <v-card max-width="450" class="mx-auto">
